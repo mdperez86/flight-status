@@ -1,19 +1,34 @@
-<mat-card>
-  <mat-card-header>
-    <div mat-card-avatar class="header-image"></div>
-    <mat-card-title>Shiba Inu</mat-card-title>
-    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-  </mat-card-header>
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-  <mat-card-content>
-    <p>
-      The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-      A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-      bred for hunting.
-    </p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button>LIKE</button>
-    <button mat-button>SHARE</button>
-  </mat-card-actions>
-</mat-card>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar class="header-image"></div>
+      <mat-card-title>Flight Status</mat-card-title>
+      <mat-card-subtitle>Search form</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <mat-card-content>
+      <p *ngIf="step == 1">
+        <mat-form-field appearance="outline">
+          <mat-label>When are you gonna flight?</mat-label>
+          <input matInput formControlName="date" [matDatepicker]="datepicker" readonly required [min]="minDate">
+          <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+          <mat-datepicker #datepicker></mat-datepicker>
+        </mat-form-field>
+      </p>
+      <p *ngIf="step == 2">
+        <mat-form-field appearance="outline">
+          <mat-label>What is your flight number?</mat-label>
+          <input matInput formControlName="flight" required>
+        </mat-form-field>
+      </p>
+      <p *ngIf="step == 3">
+        {{ fligthStatus.flight }} | {{ fligthStatus.date | date }} ({{ fligthStatus.status }})<br>
+        {{ fligthStatus.origin.code }} ({{ fligthStatus.weather.origin.temperature }}&deg;C) -> {{ fligthStatus.destination.code }} ({{ fligthStatus.weather.destination.temperature }}&deg;C)
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button *ngIf="step > 1" mat-button type="button" (click)="form.reset();step=1;">NOT THIS DAY?</button>
+      <button *ngIf="step > 2" mat-button type="button" (click)="form.get('flight').reset();step=2;">NOT MY FLIGHT?</button>
+    </mat-card-actions>
+  </mat-card>
+</form>
