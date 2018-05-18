@@ -73,7 +73,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": [],
             "assets": [
@@ -127,5 +127,16 @@
       }
     }
   },
-  "defaultProject": "flight-status"
+  "defaultProject": "flight-status",
+  "schematics": {
+    "@schematics/angular:module": {
+      "styleext": "scss"
+    },
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    },
+    "@schematics/angular:directive": {
+      "styleext": "scss"
+    }
+  }
 }
