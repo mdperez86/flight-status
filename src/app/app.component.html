@@ -1,11 +1,17 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-card>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
     <mat-card-header>
-      <div mat-card-avatar class="header-image"></div>
+      <div mat-card-avatar>
+        <mat-icon color="warn">flight</mat-icon>
+      </div>
       <mat-card-title>Flight Status</mat-card-title>
       <mat-card-subtitle>Search form</mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <div mat-card-image *ngIf="step < 3" [ngStyle]="{ backgroundColor: step == 1 ? '#6200EE' : '#3700B3' }">
+      <mat-icon *ngIf="step == 1">date_range</mat-icon>
+      <mat-icon *ngIf="step == 2">#</mat-icon>
+    </div>
     <mat-card-content>
       <p *ngIf="step == 1">
         <mat-form-field appearance="outline">
@@ -18,17 +24,58 @@
       <p *ngIf="step == 2">
         <mat-form-field appearance="outline">
           <mat-label>What is your flight number?</mat-label>
-          <input matInput formControlName="flight" required>
+          <input matInput formControlName="flight" required autocomplete="off">
+          <mat-hint>Departure on {{ form.get('date').value | date }}</mat-hint>
         </mat-form-field>
       </p>
-      <p *ngIf="step == 3">
-        {{ fligthStatus.flight }} | {{ fligthStatus.date | date }} ({{ fligthStatus.status }})<br>
-        {{ fligthStatus.origin.code }} ({{ fligthStatus.weather.origin.temperature }}&deg;C) -> {{ fligthStatus.destination.code }} ({{ fligthStatus.weather.destination.temperature }}&deg;C)
-      </p>
+      <div *ngIf="step == 3">
+        <h3>{{ fligthStatus.date | date }}</h3>
+        <h2 class="flight-number">
+          {{ fligthStatus.flight }} <sup>{{ fligthStatus.status }}</sup>
+        </h2>
+
+        <div class="row">
+          <div>
+            <div>
+              {{ fligthStatus.origin.code }} <mat-icon color="warn">flight_takeoff</mat-icon>
+            </div>
+            <div>
+              <span>{{ fligthStatus.origin.city }}</span>
+            </div>
+            <div>
+              <small>{{ fligthStatus.origin.fullAirport }}</small>
+            </div>
+          </div>
+          <div>
+            <div>
+              <mat-icon color="warn">flight_land</mat-icon> {{ fligthStatus.destination.code }}
+            </div>
+            <div>
+              <span>{{ fligthStatus.destination.city }}</span>
+            </div>
+            <div>
+              <small>{{ fligthStatus.destination.fullAirport }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <div>
+              {{ fligthStatus.weather.origin.temperature }}&deg;C ({{ fligthStatus.weather.origin.description }})
+            </div>
+          </div>
+          <div>
+            <div>
+              ({{ fligthStatus.weather.destination.description }}) {{ fligthStatus.weather.destination.temperature }}&deg;C
+            </div>
+          </div>
+        </div>
+      </div>
     </mat-card-content>
     <mat-card-actions>
-      <button *ngIf="step > 1" mat-button type="button" (click)="form.reset();step=1;">NOT THIS DAY?</button>
-      <button *ngIf="step > 2" mat-button type="button" (click)="form.get('flight').reset();step=2;">NOT MY FLIGHT?</button>
+      <button *ngIf="step > 1" mat-button type="button" (click)="form.reset();step=1;">ANOTHER DAY</button>
+      <button *ngIf="step > 2" mat-button type="button" (click)="form.get('flight').reset();step=2;">ANOTHER FLIGHT</button>
     </mat-card-actions>
   </mat-card>
 </form>
