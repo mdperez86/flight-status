@@ -6,9 +6,7 @@ steps:
   args: ['run', 'lint']
 
 - name: 'gcr.io/cloud-builders/npm'
-  args: ['test']
-  env:
-  - 'CHROME_BIN=http://localhost:9876/'
+  args: ['run', 'e2e']
 
 - name: 'gcr.io/cloud-builders/docker'
   args: ["build", "-t", "gcr.io/flight-status-204918/flight-status:$REVISION_ID", "."]
