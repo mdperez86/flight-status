@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flight-status-service
+  labels:
+    app: flight-status
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: flight-status
+  type: LoadBalancer
+---
+apiVersion: apps/v1beta2
+kind: Deployment 
+metadata:
+  name: flight-status
+spec:
+  selector:
+    matchLabels:
+      app: flight-status
+  replicas: 2
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: flight-status
+    spec:
+      containers:
+      - name: master
+        image: gcr.io/flight-status-204918/flight-status:v1
+        ports:
+        - containerPort: 8080
+          name: flight-status
