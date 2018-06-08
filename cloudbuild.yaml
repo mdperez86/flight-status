@@ -7,6 +7,8 @@ steps:
 
 - name: 'gcr.io/cloud-builders/npm'
   args: ['test']
+  env:
+  - 'CHROME_BIN=http://localhost:9876/'
 
 - name: 'gcr.io/cloud-builders/docker'
   args: ["build", "-t", "gcr.io/flight-status-204918/flight-status:$REVISION_ID", "."]
