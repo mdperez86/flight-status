@@ -1,34 +1,51 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, ANALYZE_FOR_ENTRY_COMPONENTS } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import { retry, catchError, retryWhen } from 'rxjs/operators';
 
 const defaultResponse: any = {
-  flight: 'LA2012',
-  date: '2018-05-18',
-  origin: {
-    city: 'Santiago',
-    fullAirport: 'Arturo Merino Benitez',
-    code: 'SCL'
-  },
-  destination: {
-    city: 'Antofagasta',
-    fullAirport: 'Andres Sabella',
-    code: 'ANF'
-  },
-  status: 'On-Time',
-  weather: {
-    origin: {
-      description: 'Cloudy sky',
-      temperature: '23',
-      icon: '04n'
+  'flight': 'LA600',
+  'date': '2018-05-18T00:00:00.000Z',
+  'generalStatus': 'Scheduled',
+  'airports': [
+    {
+      'status': 'Scheduled',
+      'city': 'Santiago',
+      'fullAirport': 'Arturo Merino Benitez',
+      'code': 'SCL',
+      'departureDate': '2018-05-18T00:00:00.000Z',
+      'weather': {
+        'description': 'Cloudy sky',
+        'temperature': '23',
+        'icon': 'http://openweathermap.org/img/w/04n.png'
+      }
+
     },
-    destination: {
-      description: 'Cloudy sky',
-      temperature: '24',
-      icon: '04n'
+    {
+      'status': 'Scheduled',
+      'city': 'Lima',
+      'fullAirport': 'ATO Lima',
+      'code': 'LIM',
+      'departureDate': '2018-05-18T00:00:00.000Z',
+      'weather': {
+        'description': 'Cloudy sky',
+        'temperature': '24',
+        'icon': 'http://openweathermap.org/img/w/04n.png'
+      }
+    },
+    {
+      'status': 'Scheduled',
+      'city': 'Los Angeles',
+      'fullAirport': 'Ato Los Angeles',
+      'code': 'LAX',
+      'departureDate': '2018-05-18T00:00:00.000Z',
+      'weather': {
+        'description': 'Cloudy sky',
+        'temperature': '24',
+        'icon': 'http://openweathermap.org/img/w/04n.png'
+      }
     }
-  }
+  ]
 };
 
 @Injectable({
@@ -47,7 +64,7 @@ export class FlightStatusService {
         .set('flight', flight)
     }).pipe(
       retry(2),
-      catchError((error, caught) => of(defaultResponse))
+      catchError(() => of(defaultResponse))
     );
   }
 
