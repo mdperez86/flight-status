@@ -31,44 +31,33 @@
       <div *ngIf="step == 3">
         <h3>{{ fligthStatus.date | date }}</h3>
         <h2 class="flight-number">
-          {{ fligthStatus.flight }} <sup>{{ fligthStatus.status }}</sup>
+          {{ fligthStatus.flight }} <sup>{{ fligthStatus.generalStatus }}</sup>
         </h2>
 
-        <div class="row">
-          <div>
-            <div>
-              {{ fligthStatus.origin.code }} <mat-icon color="warn">flight_takeoff</mat-icon>
-            </div>
-            <div>
-              <span>{{ fligthStatus.origin.city }}</span>
-            </div>
-            <div>
-              <small>{{ fligthStatus.origin.fullAirport }}</small>
-            </div>
+        <div class="row" *ngFor="let airport of fligthStatus.airports; index as i">
+          <div class="time">
+            <p>
+              <strong>{{ airport.status }}</strong><br>
+              <small><strong>{{ airport.departureDate | date:'shortTime' }}</strong></small>
+            </p>
+            <p>
+              <img [src]="airport.weather.icon">
+            </p>
           </div>
-          <div>
-            <div>
-              <mat-icon color="warn">flight_land</mat-icon> {{ fligthStatus.destination.code }}
-            </div>
-            <div>
-              <span>{{ fligthStatus.destination.city }}</span>
-            </div>
-            <div>
-              <small>{{ fligthStatus.destination.fullAirport }}</small>
-            </div>
+          <div class="line">
+            <mat-icon *ngIf="i === 0" class="point" color="warn">flight_takeoff</mat-icon>
+            <mat-icon *ngIf="i > 0 && i < fligthStatus.airports.length - 1" class="point" [ngClass]="{ rotate: i > 0 && i < fligthStatus.airports.length - 1 }" color="warn">flight</mat-icon>
+            <mat-icon *ngIf="i === fligthStatus.airports.length - 1" class="point" color="warn">flight_land</mat-icon>
           </div>
-        </div>
-
-        <div class="row">
-          <div>
-            <div>
-              {{ fligthStatus.weather.origin.temperature }}&deg;C ({{ fligthStatus.weather.origin.description }})
-            </div>
-          </div>
-          <div>
-            <div>
-              ({{ fligthStatus.weather.destination.description }}) {{ fligthStatus.weather.destination.temperature }}&deg;C
-            </div>
+          <div class="description">
+            <p>
+              {{ airport.city }} ({{ airport.code }})<br>
+              <small>{{ airport.fullAirport }}</small>
+            </p>
+            <p class="weather">
+              <span>{{ airport.weather.temperature }}<sup>&deg;</sup></span>
+              <small>{{ airport.weather.description }}</small>
+            </p>
           </div>
         </div>
       </div>
