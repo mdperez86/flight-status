@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: master
-        image: gcr.io/flight-status-204918/flight-status:v1
+        image: gcr.io/flight-status-204918/flight-status:$REVISION_ID
         ports:
         - containerPort: 8080
           name: flight-status

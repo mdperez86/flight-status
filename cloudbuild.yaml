@@ -9,17 +9,17 @@ steps:
 #   args: ['run', 'e2e']
 
 - name: 'gcr.io/cloud-builders/docker'
-  args: ["build", "-t", "gcr.io/flight-status-204918/flight-status:$REVISION_ID", "."]
+  args: ['build', '-t', 'gcr.io/flight-status-204918/flight-status:$REVISION_ID', '.']
 
 - name: 'gcr.io/cloud-builders/docker'
-  args: ["push", "gcr.io/flight-status-204918/flight-status:$REVISION_ID"]
+  args: ['push', 'gcr.io/flight-status-204918/flight-status:$REVISION_ID']
 
 - name: 'gcr.io/cloud-builders/kubectl'
-  args:
-  - 'set'
-  - 'image'
-  - 'deployment/flight-status'
-  - 'container/flight-status=gcr.io/flight-status-204918/flight-status:$REVISION_ID'
+  args: ['apply', '-f', './deployment.yaml']
+  # - 'set'
+  # - 'image'
+  # - 'deployment/flight-status'
+  # - 'container/flight-status=gcr.io/flight-status-204918/flight-status:$REVISION_ID'
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-east1-d'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=flight-status-production-cluster'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=flight-status-cluster'
