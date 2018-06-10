@@ -11,7 +11,9 @@
     "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
     "serve:ssr": "node dist/server",
     "build:client-and-server-bundles": "ng build --prod && ng run flight-status:server",
-    "webpack:server": "webpack --config webpack.server.config.js --progress --colors"
+    "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
+    "gcloud:test": "ng test --watch=false",
+    "gcloud:build": "gcloud container builds submit --config cloudbuild.yaml ."
   },
   "private": true,
   "dependencies": {
@@ -48,6 +50,7 @@
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~1.7.1",
+    "karma-chrome-launcher": "^2.2.0",
     "karma-coverage-istanbul-reporter": "~1.4.2",
     "karma-jasmine": "~1.1.1",
     "karma-jasmine-html-reporter": "^0.2.2",
