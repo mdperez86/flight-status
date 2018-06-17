@@ -30,7 +30,9 @@ spec:
     spec:
       containers:
       - name: flight-status-container
-        image: gcr.io/flight-status-204918/flight-status:latest
+        image: gcr.io/awesome-flight-status16378/flight-status:latest
+        # imagePullPolicy: Never
         ports:
         - name: http-server
           containerPort: 8080
+      
