@@ -3,7 +3,7 @@ import { Injectable, ANALYZE_FOR_ENTRY_COMPONENTS } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { retry, catchError, retryWhen } from 'rxjs/operators';
 
-const defaultResponse: any = {
+export const defaultResponse: any = {
   'flight': 'LA600',
   'date': '2018-05-18T00:00:00.000Z',
   'generalStatus': 'Scheduled',
