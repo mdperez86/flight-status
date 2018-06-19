@@ -13,6 +13,7 @@
     "build:client-and-server-bundles": "ng build --prod && ng run flight-status:server",
     "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
     "gcloud:test": "ng test --browsers PhantomJS --watch=false --code-coverage --progress=false",
+    "gcloud:docker:auth": "gcloud auth configure-docker",
     "gcloud:build": "gcloud container builds submit --config cloudbuild.yaml ."
   },
   "private": true,
