@@ -23,6 +23,17 @@ steps:
   - 'CLOUDSDK_COMPUTE_ZONE=us-east1-d'
   - 'CLOUDSDK_CONTAINER_CLUSTER=flight-status-cluster'
 
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: [
+    'set', 
+    'image', 
+    'deployment/flight-status-deployment', 
+    'flight-status-container=gcr.io/$PROJECT_ID/flight-status:$COMMIT_SHA'
+  ]
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-east1-d'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=flight-status-cluster'
+
 images:
 - 'gcr.io/$PROJECT_ID/flight-status:$COMMIT_SHA'
 - 'gcr.io/$PROJECT_ID/flight-status:latest'

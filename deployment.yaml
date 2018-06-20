@@ -22,9 +22,6 @@ spec:
     matchLabels:
       app: flight-status
   replicas: 2
-  strategy:
-    type: Recreate
-    rollingUpdate: null
   template:
     metadata:
       labels:
